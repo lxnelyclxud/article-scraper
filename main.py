@@ -1,3 +1,5 @@
+from os import path
+from os.path import join
 import textwrap
 import os
 import sys
@@ -79,12 +81,14 @@ class ArticleScraper(Scraper):
 if __name__ == "__main__":
     config = None
     url = None
-
     try:
-        with open("config.json", "r") as config_file:
+        with open(
+            os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "config.json"),
+            "r",
+        ) as config_file:
             config = json.load(config_file)
     except FileNotFoundError as ex:
-        print("Config file not found near exe")
+        print(ex)
 
     if config:
         if len(sys.argv) > 1:
