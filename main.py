@@ -12,7 +12,7 @@ class ArticleScraper(Scraper):
         self.config = config
 
     def parse(self):
-        def filter(tag):
+        def filter(tag):  # "filter" function for BeautifulSoup's find_all method
             return (
                 tag.name in config["banned_tags"]
                 or (
@@ -33,19 +33,23 @@ class ArticleScraper(Scraper):
                 )
             )
 
+        # clear out the response based on filter
         [tag.decompose() for tag in self.html.find_all(filter)]
 
+        # finds lowest tag containing the most amount of paragraph tags
         content = max(
             self.html.body.find_all(),
             key=lambda child: len(child.find_all("p", recursive=False)),
         )
 
+        # if href links to the same site append it to site's base url
         url_format = (
             lambda href: href
             if "http" in href
             else urljoin("://".join(urlsplit(self.url)[:2]), href)
         )
 
+        # constructing final article text
         self.article = textwrap.fill(self.html.title.text, width=80) + "\n" * 3
         for tag in content:
             if not isinstance(tag, NavigableString):
@@ -56,7 +60,7 @@ class ArticleScraper(Scraper):
                     self.article += f"{textwrap.fill(tag.text, width=80)} \n\n"
 
     def to_file(self):
-        url_scheme = urlsplit(self.url).scheme
+        url_scheme = urlsplit(self.url).scheme  # http(s)
         path_from_url = os.path.normpath(
             self.url.replace(f"{url_scheme}://", "").replace("www.", "")
         )
