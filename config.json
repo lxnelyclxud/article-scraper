@@ -1,0 +1,34 @@
+{
+  "banned_tags": [
+    "script",
+    "noscript",
+    "nav",
+    "header",
+    "footer",
+    "img",
+    "svg",
+    "aside",
+    "hr",
+    "style",
+    "iframe",
+    "figcaption"
+  ],
+
+  "banned_classes": [
+    "footer",
+    "header",
+    "nav",
+    "social",
+    "menu",
+    "photo",
+    "image",
+    "comment",
+    "advert",
+    "adcenter",
+    "brand",
+    "banner",
+    "tabloid",
+    "sprite",
+    "credits"
+  ]
+}
